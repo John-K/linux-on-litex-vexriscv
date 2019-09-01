@@ -124,6 +124,18 @@ class MiniSpartan6(Board):
     def load(self):
         os.system("xc3sprog -c ftdi build/minispartan6/gateware/top.bit")
 
+# PanoLogicG2 support -------------------------------------------------------------------------------
+
+class PanoLogicG2(Board):
+    def __init__(self):
+        from litex_boards.targets import panologicg2
+        Board.__init__(self, panologicg2.BaseSoC, "serial")
+
+    def load(self):
+        from litex.build.openocd import OpenOCD
+        prog = OpenOCD("prog/openocd_jlink_xilinx_6s.cfg")
+        prog.load_bitstream("build/panologicg2/gateware/top.bit")
+
 
 # Versa ECP5 support -------------------------------------------------------------------------------
 
@@ -170,6 +182,7 @@ supported_boards = {
     "nexys4ddr":    Nexys4DDR,
     "nexys_video":  NexysVideo,
     "minispartan6": MiniSpartan6,
+    "panologicg2": PanoLogicG2,
     # Lattice
     "versa_ecp5":   VersaECP5,
     "ulx3s":        ULX3S,
